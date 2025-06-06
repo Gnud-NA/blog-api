@@ -1,22 +1,16 @@
 import { registerAs } from '@nestjs/config';
-import { AppConfig } from './app-config.type';
-import { IsString } from 'class-validator';
+import { AppConfig, NodeEnv } from './app-config.type';
+import { IsNumber, IsString, Max, Min } from 'class-validator';
 import validateConfig from 'src/utils/validate-config';
 
-const NodeEnv = {
-  development: 'development',
-  test: 'test',
-  production: 'production',
-} as const;
-
-type NodeEnv = (typeof NodeEnv)[keyof typeof NodeEnv];
-
 export class EnvironmentVariablesValidator {
-  @IsString()
-  port: string;
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  PORT: number;
 
   @IsString()
-  nodeEnv: NodeEnv;
+  NODE_ENV: NodeEnv;
 }
 
 export default registerAs<AppConfig>('app', () => {
