@@ -17,5 +17,6 @@ export default registerAs<DatabaseConfig>('database', () => {
     url: process.env.URL || '',
     synchronous: false,
     autoloadEntity: true,
+    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   };
 });
